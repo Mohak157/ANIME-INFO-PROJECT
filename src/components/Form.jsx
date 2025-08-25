@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase"; 
+import { supabase } from "../supabase"; 
 
 const Form = () => {
   const [name, setName] = useState("");
@@ -14,29 +13,33 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
     if (!name || !favoriteAnime || !whyAnime) {
       return alert("Please fill in all fields before submitting!");
     }
 
     try {
-     
-      await addDoc(collection(db, "animeResponses"), {
-        name,
-        favoriteAnime,
-        reason: whyAnime,
-        submittedAt: new Date(),
-      });
+      const { error } = await supabase
+        .from("anime_responses") 
+        .insert([
+          {
+            name,
+            favorite_anime: favoriteAnime,
+            reason: whyAnime,
+            submitted_at: new Date(),
+          },
+        ]);
+
+      if (error) throw error;
 
       setIsSubmitted(true);
-      setFeedback(" Thanks! Your response has been recorded");
-  
+      setFeedback("  Your response has been recorded.");
+
       setName("");
       setFavoriteAnime("");
       setWhyAnime("");
     } catch (error) {
       console.error("Failed to save submission:", error);
-      setFeedback(" Something went wrong");
+      setFeedback(" Something went wrong.");
     }
   };
 
@@ -79,7 +82,6 @@ const Form = () => {
           </button>
         </form>
 
-       
         {feedback && <p className="mt-3 text-center text-sm">{feedback}</p>}
 
         <button
