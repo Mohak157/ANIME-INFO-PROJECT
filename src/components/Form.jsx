@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../supabase"; 
+import { supabase } from "../supabase";
 
 const Form = () => {
   const [name, setName] = useState("");
@@ -19,7 +19,7 @@ const Form = () => {
 
     try {
       const { error } = await supabase
-        .from("anime_responses") 
+        .from("anime_responses")
         .insert([
           {
             name,
@@ -32,14 +32,14 @@ const Form = () => {
       if (error) throw error;
 
       setIsSubmitted(true);
-      setFeedback("  Your response has been recorded.");
+      setFeedback(" Your response has been recorded.");
 
       setName("");
       setFavoriteAnime("");
       setWhyAnime("");
     } catch (error) {
-      console.error("Failed to save submission:", error);
-      setFeedback(" Something went wrong.");
+      console.error("Supabase insert error:", error);
+      setFeedback(" Something went wrong: " + error.message);
     }
   };
 
