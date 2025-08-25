@@ -1,18 +1,43 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebase"; 
 
 const Form = () => {
   const [name, setName] = useState("");
-  const [favAnime, setFavAnime] = useState("");
-  const [reason, setReason] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [favoriteAnime, setFavoriteAnime] = useState("");
+  const [whyAnime, setWhyAnime] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [feedback, setFeedback] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !favAnime || !reason) return alert("Fill all fields!");
-    console.log({ name, favAnime, reason });
-    setSubmitted(true);
+
+    
+    if (!name || !favoriteAnime || !whyAnime) {
+      return alert("Please fill in all fields before submitting!");
+    }
+
+    try {
+     
+      await addDoc(collection(db, "animeResponses"), {
+        name,
+        favoriteAnime,
+        reason: whyAnime,
+        submittedAt: new Date(),
+      });
+
+      setIsSubmitted(true);
+      setFeedback(" Thanks! Your response has been recorded");
+  
+      setName("");
+      setFavoriteAnime("");
+      setWhyAnime("");
+    } catch (error) {
+      console.error("Failed to save submission:", error);
+      setFeedback(" Something went wrong");
+    }
   };
 
   return (
@@ -33,26 +58,29 @@ const Form = () => {
           <input
             type="text"
             placeholder="Favorite anime"
-            value={favAnime}
-            onChange={(e) => setFavAnime(e.target.value)}
+            value={favoriteAnime}
+            onChange={(e) => setFavoriteAnime(e.target.value)}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 focus:ring-orange-400"
           />
           <textarea
             rows={4}
-            placeholder="Tell us why?"
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
+            placeholder="Tell us why this anime is your favorite"
+            value={whyAnime}
+            onChange={(e) => setWhyAnime(e.target.value)}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 focus:ring-orange-400"
           />
 
           <button
             type="submit"
-            disabled={submitted}
+            disabled={isSubmitted}
             className="w-full py-2 bg-orange-600 text-white rounded hover:bg-orange-700 disabled:opacity-60"
           >
-            {submitted ? "Thanks for sharing!" : "Submit"}
+            {isSubmitted ? "Submitted!" : "Submit"}
           </button>
         </form>
+
+       
+        {feedback && <p className="mt-3 text-center text-sm">{feedback}</p>}
 
         <button
           onClick={() => navigate("/")}
