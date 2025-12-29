@@ -1,11 +1,8 @@
+HOSTED AT : https://mohak157.github.io/ANIME-INFO-PROJECT/
+
 Inspiration from=https://www.youtube.com/watch?v=zA9r5zTllx4&t=6006s&ab_channel=JavaScriptMastery
 
-GSAP USED FOR ANIMATIONS
-npm install @gsap/react
-
-
-https://www.cssportal.com/css-clip-path-generator/  = USED FOR TRAPEZOIDAL MASK IN HERO SECTION
-
+GSAP USED FOR ANIMATION
 
 TYPEWRITER EFFECT
 https://www.npmjs.com/package/typewriter-effect
