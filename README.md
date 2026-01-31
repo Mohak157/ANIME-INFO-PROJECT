@@ -1,4 +1,4 @@
-# HOSTED AT : https://mohak157.github.io/ANIME-INFOT/
+# HOSTED AT : https://mohak157.github.io/ANIME-INFO/
 
 Inspiration from=https://www.youtube.com/watch?v=zA9r5zTllx4&t=6006s&ab_channel=JavaScriptMastery
 
