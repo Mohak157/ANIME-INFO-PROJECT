@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')).render(
 
       <StrictMode>
     <Provider store={store}>
-      <BrowserRouter basename="/ANIME-INFO-PROJECT/">
+      <BrowserRouter basename="/ANIME-INFO/">
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/form" element={<Form />} />
