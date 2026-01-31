@@ -1,9 +1,11 @@
 // src/supabase.js
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = ;        // from Supabase project
-const SUPABASE_ANON_KEY = ;      // from Supabase project
+const SUPABASE_URL = "https://your-project-id.supabase.co";
+const SUPABASE_ANON_KEY = "your-anon-public-key";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  schema: 'public', // important to match your table's schema
+  db: {
+    schema: "public",
+  },
 });
